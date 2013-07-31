@@ -7,7 +7,7 @@ def mylog(message):
 class BinaryCode:
     def decode(self, encrypted):
 
-        if type(encrypted).__name__ != "str" or encrypted == "":
+        if type(encrypted) is not str or encrypted == "":
             return ["NONE", "NONE"]
 
         rets = []
