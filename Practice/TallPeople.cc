@@ -1,67 +1,78 @@
-#include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <set>
-#include <map>
-#include <cmath>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <utility>
+#include <iostream>
+#include <cstring>
+#include <map>
+#include <set>
+#include <queue>
 #include <algorithm>
+#include <sstream>
 
 using namespace std;
 
-#define DEBUG
 class TallPeople {
-    public:
-        int h[55][55];
-        vector <int> getPeople(vector <string> people) {
-            int n = people.size(), m;
-            for (int i=0; i<n; i++) {
-                istringstream stream(people[i]);
-                int ct = 0;
-                for(; stream >> h[i][ct++]; );
-                m = ct-1;
+public:
+    vector<int> getPeople(vector<string> people) {
+        vector<int> shortTall;
+        vector<int> TallShort;
+        int person;
+        for(std::vector<string>::size_type i = 0; i != people.size(); i++) {
+            istringstream ss(people[i]);
+            int j=0;
+            while (ss >> person) {
+                if (shortTall.size() <= i) {
+                    shortTall.push_back(person);
+                }
+                else if (person < shortTall[i]) {
+                    shortTall[i] = person;
+                }
+                
+                if (TallShort.size() <= j) {
+                    TallShort.push_back(person);
+                }
+                else if (person > TallShort[j]) {
+                    TallShort[j] = person;
+                }
+                
+                j++;
             }
-            #ifndef DEBUG
-            for (int i=0; i<n; i++) {
-                for (int j=0; j<m; j++) printf("%d ", h[i][j]);
-                printf("\n");
-            }
-            #endif
-            vector <int> ans(2);
-            ans[0] = -1, ans[1] = 1050;
-            for (int i=0; i<n; i++) {
-                int x = h[i][0];
-                for (int j=0; j<m; j++) x = min(x, h[i][j]);
-                ans[0] = max(ans[0], x);
-            }
-            for (int i=0; i<m; i++) {
-                int x = h[0][i];
-                for (int j=0; j<n; j++) x = max(x, h[j][i]);
-                ans[1] = min(ans[1], x);
-            }
-            printf("%d, %d\n", ans[0], ans[1]);
-            return ans;
+        }
+        
+        int sT = *max_element(shortTall.begin(), shortTall.end());
+        int Ts = *min_element(TallShort.begin(), TallShort.end());
+        
+        const int arr[] = {sT, Ts};
+        vector<int> vec (arr, arr + sizeof(arr) / sizeof(arr[0]));
+        
+        return vec;
     }
 };
 
-int main() {
-    TallPeople tp;
+/*
+TallPeople tp;
 
-    const char* args[] = {"9 2 3", "4 8 7"};
-    vector<string> v(args, args + sizeof(args)/sizeof(args[0])); //get array size
-
-    const char* args2[] = {"1 2", "4 5", "3 6"};
-    vector<string> v2(args2, args2 + sizeof(args2)/sizeof(args2[0])); //get array size
-
-    const char* args3[] = {"1 1", "1 1"};
-    vector<string> v3(args3, args3 + sizeof(args3)/sizeof(args3[0])); //get array size
-
-    tp.getPeople(v);
-    tp.getPeople(v2);
-    tp.getPeople(v3);
-
-    return 0;
-}
+ const char* args[] = {"9 2 3", "4 8 7"};
+ vector<string> people(args, args + sizeof(args)/sizeof(args[0]));
+ 
+ vector<int> ret = tp.getPeople(people);
+ for(vector<int>::iterator it = ret.begin(); it != ret.end(); ++it) {
+ cout << *it << endl;
+ }
+ 
+ const char* args[] = {"1 2", "4 5", "3 6"};
+ vector<string> people(args, args + sizeof(args)/sizeof(args[0]));
+ 
+ vector<int> ret = tp.getPeople(people);
+ for(vector<int>::iterator it = ret.begin(); it != ret.end(); ++it) {
+ cout << *it << endl;
+ }
+ 
+ 
+ const char* args[] = {"1 1", "1 1"};
+ vector<string> people(args, args + sizeof(args)/sizeof(args[0]));
+ 
+ vector<int> ret = tp.getPeople(people);
+ for(vector<int>::iterator it = ret.begin(); it != ret.end(); ++it) {
+ cout << *it << endl;
+ }
+ */
