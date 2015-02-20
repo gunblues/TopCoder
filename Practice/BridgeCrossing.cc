@@ -66,25 +66,13 @@ public:
     }
 };
 
-/*
-BridgeCrossing bc;
+int main(int argc, const char * argv[]) {
+    BridgeCrossing bc;
 
-const int args[] = {10, 2, 5, 1};
-vector<int> times(args, args + sizeof(args)/sizeof(args[0]));
-cout << bc.minTime(times) << endl;
+    cout << bc.minTime({1, 2, 5, 10}) << endl;
+    cout << bc.minTime({1, 2, 3, 4, 5}) << endl;
+    cout << bc.minTime({100}) << endl;
+    cout << bc.minTime({1, 2, 3, 50, 99, 100}) << endl;
 
-
-const int args[] = {1, 2, 3, 4, 5};
-vector<int> times(args, args + sizeof(args)/sizeof(args[0]));
-cout << bc.minTime(times) << endl;
-
-const int args[] = {100};
-vector<int> times(args, args + sizeof(args)/sizeof(args[0]));
-cout << bc.minTime(times) << endl;
-
-
-const int args[] = {1, 2, 3, 50, 99, 100};
-vector<int> times(args, args + sizeof(args)/sizeof(args[0]));
-cout << bc.minTime(times) << endl;
-*/
-
+    return 0;
+}
