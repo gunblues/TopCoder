@@ -16,101 +16,101 @@ using namespace std;
 #define BOUND_Y 600
 
 class grafixMask {
-    private:
-        vector<int> dx;
-        vector<int> dy;
-        bool matrix[BOUND_X][BOUND_Y];
-        int total_area = 0;
+private:
+    vector<int> dx;
+    vector<int> dy;
+    bool matrix[BOUND_X][BOUND_Y];
+    int total_area = 0;
+    
+    void just_do_it(vector<string> r) {
+        memset(matrix, 0, BOUND_X * BOUND_Y * sizeof(bool));
 
-        void just_do_it(vector<string> r) {
-            memset(matrix, 0, BOUND_X * BOUND_Y * sizeof(bool));
-
-            while(!r.empty()) {
-                istringstream z(r.back());
-                int a, b, c ,d;
-                z >> a >> b >> c >> d;
-
-                for (int i=a; i<=c; i++)
-                    for (int j=b; j<=d; j++)
-                        matrix[i][j] = true;
-
-                r.pop_back();
-            }
+        while(!r.empty()) {
+            istringstream z(r.back());
+            int a, b, c ,d;
+            z >> a >> b >> c >> d;
+            
+            for (int i=a; i<=c; i++)
+                for (int j=b; j<=d; j++)
+                    matrix[i][j] = true;
+            
+            r.pop_back();
         }
+    }
 
-        bool in_bound(int x, int y) {
-            if (x >=0 && x < BOUND_X && y >=0 && y < BOUND_Y) {
-                return true;
-            }
-
-            return false;
+    bool in_bound(int x, int y) {
+        if (x >=0 && x < BOUND_X && y >=0 && y < BOUND_Y) {
+            return true;
         }
-
-        int flood_fill(int x, int y) {
-            int ret = 0;
-            queue<pair<int, int>> q;
-            q.push(make_pair(x, y));
-
-            matrix[x][y] = true;
-
-            while (!q.empty()) {
-                pair<int, int> tmp = q.front();
-                q.pop();
-                ret++;
-
-                for (int i=0; i<4; i++) {
-                    if (in_bound(tmp.f + dx[i], tmp.s + dy[i]))
-                        if (!matrix[tmp.f + dx[i]][tmp.s + dy[i]]) {
-                            matrix[tmp.f + dx[i]][tmp.s + dy[i]] = true;
-                            q.push(make_pair(tmp.f + dx[i], tmp.s + dy[i]));
-                        }
-                }
-
-            }
-            return ret;
-        }
-
-        /* try run by using recursive but it's unavailable when dimension is large
-           int flood_fill(int x, int y) {
-           if (!in_bound(x, y)) return total_area;
-
-           if (matrix[x][y]) {
-           return total_area;
-           }
-
-           matrix[x][y] = true;
-           total_area++;
-
-           for (int i=0; i<4; i++) {
-           flood_fill(x + dx[i], y + dy[i]);
-           }
-
-           return total_area;
-           }
-         */
-
-    public:
-        grafixMask() {
-            dx = {0, 0, 1, -1};
-            dy = {1, -1, 0, 0};
-        }
-
-        vector<int> sortedAreas(vector<string> rectangles) {
-            vector<int> v;
-
-            just_do_it(rectangles);
-
-            for(int i=0; i<BOUND_X; i++)
-                for(int j=0; j<BOUND_Y; j++)
-                    if (!matrix[i][j]) {
-                        v.push_back(flood_fill(i, j));
-                        //cout << total_area << endl;
-                        //total_area = 0;
+        
+        return false;
+    }
+    
+    int flood_fill(int x, int y) {
+        int ret = 0;
+        queue<pair<int, int>> q;
+        q.push(make_pair(x, y));
+        
+        matrix[x][y] = true;
+        
+        while (!q.empty()) {
+            pair<int, int> tmp = q.front();
+            q.pop();
+            ret++;
+            
+            for (int i=0; i<4; i++) {
+                if (in_bound(tmp.f + dx[i], tmp.s + dy[i]))
+                    if (!matrix[tmp.f + dx[i]][tmp.s + dy[i]]) {
+                        matrix[tmp.f + dx[i]][tmp.s + dy[i]] = true;
+                        q.push(make_pair(tmp.f + dx[i], tmp.s + dy[i]));
                     }
-
-            sort(v.begin(), v.end());
-            return v;
+            }
+            
         }
+        return ret;
+    }
+     
+    /*
+    // using recursive but it's unavailable when dimension is large
+    int flood_fill(int x, int y) {
+        if (!in_bound(x, y)) return total_area;
+        
+        if (matrix[x][y]) {
+            return total_area;
+        }
+        
+        matrix[x][y] = true;
+        total_area++;
+        
+        for (int i=0; i<4; i++) {
+            flood_fill(x + dx[i], y + dy[i]);
+        }
+        
+        return total_area;
+    }
+    */
+    
+public:
+    grafixMask() {
+        dx = {0, 0, 1, -1};
+        dy = {1, -1, 0, 0};
+    }
+    
+    vector<int> sortedAreas(vector<string> rectangles) {
+        vector<int> v;
+        
+        just_do_it(rectangles);
+        
+        for(int i=0; i<BOUND_X; i++)
+            for(int j=0; j<BOUND_Y; j++)
+                if (!matrix[i][j]) {
+                    v.push_back(flood_fill(i, j));
+                    total_area = 0;
+                }
+        
+        sort(v.begin(), v.end());
+        return v;
+    }
 };
 
 int main(int argc, const char * argv[]) {
