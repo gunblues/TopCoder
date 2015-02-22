@@ -23,7 +23,7 @@ private:
     int total_area = 0;
     
     void just_do_it(vector<string> r) {
-        memset(matrix, 0, BOUND_X * BOUND_Y * sizeof(bool));
+        memset(matrix, 0, sizeof(matrix));
 
         while(!r.empty()) {
             istringstream z(r.back());
