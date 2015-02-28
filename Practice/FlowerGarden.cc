@@ -1,10 +1,3 @@
-//
-//  FlowerGarden.h
-//  TopCoder
-//
-//  Created by hsiao kevin on 2015/2/27.
-//  Copyright (c) 2015年 hsiao kevin. All rights reserved.
-//
 /*
  
  Problem Statement
